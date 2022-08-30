@@ -1,0 +1,23 @@
+
+
+  <script src='/socket.io/socket.io.js'></script>
+
+  <link rel="stylesheet" href="/websocket/style.css">
+
+  <div id="page-wrapper" class='websocket'>
+    <h1>WebSockets</h1>
+
+    <div id="socket-status">Connecting...</div>
+    <div id="type-message">All SMS</div>
+    <ul id="messages-list" class="thin-scrollbar" n-repeat='currentRoom' data-n-template='<li class="{{type}}"><span>{{type}}:</span> {{data}}</li>'></ul>
+    <div id="room-id"></div>
+    <!-- <ul id="room-messages-list"></ul> -->
+
+    <form id="message-form" action="#" method="post">
+      <textarea id="message-field" placeholder="Write your message here..." required></textarea>
+      <button type="submit">Send Message</button>
+      <button type="button" id="close-btn">Close Connection</button>
+
+    </form>
+  </div>
+

@@ -1,0 +1,35 @@
+<style type="text/css" media="screen">
+    #editor{
+        position: relative;
+        overflow: hidden;
+        padding: 0;
+        font: 12px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+        direction: ltr;
+        text-align: left;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+</style>
+<h4>Setting</h4>
+<form id="formSetting" class="form-horizontal" method="post" action="/setting/setting">
+  <input type="hidden" id = "result" name="result"/>
+  <pre id="editor" style="height: 424px;" class=" ace_editor ace-tm" draggable="false"><%=JSON.stringify(config,null,"\t")%></pre>
+    <input type="hidden" name="_csrf" value="" />
+    <input type="submit" value="submit" class="btn" />
+</form>
+
+<script src="/ace/build/src/ace.js"></script>
+<script src="/ace/build/src/ext-static_highlight.js"></script>
+
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/javascript");
+    var formSetting = document.querySelector('#formSetting')
+    var result = document.querySelector('#result')
+    formSetting.onsubmit = function(){
+      result.value = editor.getValue()
+      //alert(editor.getValue())
+      //alert(result.value)
+    }
+</script>
+

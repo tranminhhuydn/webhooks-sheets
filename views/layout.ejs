@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+
+<head>
+  <title><%=title%></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <!-- Bootstrap core CSS -->
+  <link href="/css/bootstrap.min.css" rel="stylesheet" >
+
+  <!-- Favicons -->
+
+  <!-- <link rel='stylesheet' href='/css/style.css'> -->
+
+  <!-- Custom styles for this template -->
+  <link href="/css/css.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="/blog.css" rel="stylesheet">
+</head>
+
+<body>
+  <%- include('partials-doc/top-header') -%>
+  <%- include('partials-doc/navigation') -%>
+  <main class="container p-3">
+    <%-include('messages') -%>
+    <%#-messages() -%>
+    <%# if(isHome==!undefined){ %>
+      <%#- include('partials-doc/slider-center') -%>
+    <%# } %>
+    <div class="row g-5">
+      <div class="col-md-8">
+        <%- include(view) -%>
+      </div>
+      <% if(locals.partials){ %>
+      <%- include(partials) -%>
+      <% }else{ %>
+      <%- include('partials-doc/slider-left') -%>
+      <% } %>
+    </div>
+
+  </main>
+  <%- include('partials-doc/footer') -%>
+</body>
+</html>

@@ -1,0 +1,46 @@
+{
+  "name": "webhooks-sheets",
+  "version": "1.0.0",
+  "description": "hook google sheet, serviece account",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tranminhhuydn/webhooks-sheets.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tranminhhuydn/webhooks-sheets/issues"
+  },
+  "homepage": "https://github.com/tranminhhuydn/webhooks-sheets#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.2",
+    "connect-flash": "^0.1.1",
+    "connect-gzip-static": "^2.1.1",
+    "connect-multiparty": "^2.2.0",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.8",
+    "express": "^4.15.3",
+    "express-graphql": "^0.12.0",
+    "express-messages": "^1.0.1",
+    "express-session": "^1.15.3",
+    "express-validator": "^3.2.1",
+    "html-entities": "^2.3.2",
+    "i18next": "^20.2.2",
+    "i18next-fs-backend": "^1.1.1",
+    "i18next-http-middleware": "^3.1.1",
+    "morgan": "^1.10.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "primer-css": "^9.6.0",
+    "pug-walk": "^2.0.0",
+    "request": "^2.88.2",
+    "socket.io": "^4.5.1"
+  }
+}

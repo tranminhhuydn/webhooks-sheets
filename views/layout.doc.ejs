@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+
+<head>
+  <title><%=title%></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <!-- Bootstrap core CSS -->
+  <link href="/css/bootstrap.min.css" rel="stylesheet" >
+
+  <!-- Favicons -->
+
+  <!-- <link rel='stylesheet' href='/css/style.css'> -->
+
+  <!-- Custom styles for this template -->
+  <link href="/css/css.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="/docs/5.1/assets/css/docs.css" rel="stylesheet">
+<style type="text/css">
+    :root{
+      --ifm-scrollbar-size: 7px;
+      --ifm-font-weight-semibold: 500;
+      --ifm-scrollbar-thumb-background-color: silver;
+    }
+    .bd-navbar {
+        padding: 0.75rem 0;
+        /*background-color: #73cba3;*/
+        background-color: var(--bs-teal);
+    }
+@media (pointer: fine){
+  .thin-scrollbar {
+      scrollbar-width: thin;
+  }
+
+  .thin-scrollbar::-webkit-scrollbar {
+      height: var(--ifm-scrollbar-size);
+      width: var(--ifm-scrollbar-size);
+  }
+  .thin-scrollbar::-webkit-scrollbar-thumb {
+      background: var(--ifm-scrollbar-thumb-background-color);
+      border-radius: 10px;
+  }
+}
+
+  </style>
+</head>
+
+<body>
+  <%- include('partials-doc/top-header') -%>
+  <%- include('partials-doc/navigation') -%>
+ 
+
+  <% if(locals.mainLayoutType==undefined||locals.mainLayoutType=='right'){ %>
+    <main class="container p-3">
+      <%-include('messages') -%>
+      <% if(locals.isHome==!undefined){ %>
+        <%- include('partials-doc/slider-center') -%>
+      <% } %>
+      <div class="row g-5">
+        <div class="col-md-8">
+          <%- include(view) -%>
+        </div>
+        <% if(locals.partialRight){ %>
+          <div class="col-md-4">
+            <%- include(partialRight) -%>
+          </div>
+        <% }else{ %>
+          <div class="col-md-4">
+            <%- include('partials-doc/slider-right') -%>
+          </div>
+        <% } %>
+      </div>
+    </main>
+  <% } %>
+
+  <% if(locals.mainLayoutType=='left'){ %>
+    <main class="container p-3">
+      <%-include('messages') -%>
+      <% if(locals.isHome==!undefined){ %>
+        <%- include('partials-doc/slider-center') -%>
+      <% } %>
+      <div class="row g-5">
+        <% if(locals.partialLeft){ %>
+          <div class="col-md-4">
+            <%- include(partialLeft) -%>
+          </div>
+        <% }else{ %>
+          <div class="col-md-4">
+            <%- include('partials-doc/slider-left') -%>
+          </div>
+        <% } %>
+        <div class="col-md-8">
+          <%- include(view) -%>
+        </div>
+      </div>
+    </main>
+  <% } %>
+
+  <% if(locals.mainLayoutType=='doc'){ %>
+
+    <% if(locals.isHome==true){ %>
+      <%- include('partials-doc/slider-center') -%>
+    <% } %>
+
+    <div class="container-xxl my-md-4 bd-layout">
+      <% if(locals.partialLeft){ %>
+        <aside class="bd-sidebar">
+          <nav class="collapse bd-links thin-scrollbar" id="bd-docs-nav" aria-label="Docs navigation">
+            <%- include(partialLeft) -%>
+          </nav>
+        </aside>
+      <% }else if(locals.partialLeft!=false){ %>
+        <aside class="bd-sidebar">
+          <nav class="collapse bd-links thin-scrollbar" id="bd-docs-nav" aria-label="Docs navigation">
+          <%- include('partials-doc/slider-left') -%>
+          </nav>
+        </aside>
+      <% } %>
+
+      <main class="bd-main order-1">
+        <% if(locals.partialRight){ %>
+          <div class="bd-toc mt-4 mb-5 my-md-0 ps-xl-3 mb-lg-5 text-muted">
+            <%- include(partialRight) -%>
+          </div>
+        <% }else if(locals.partialRight!=false){ %>
+            <div class="bd-toc mt-4 mb-5 my-md-0 ps-xl-3 mb-lg-5 text-muted">
+              <%- include('partials-doc/slider-right') -%>
+            </div>
+        <% } %>  
+        <div class="bd-content ps-lg-4">
+            <%-include('messages') -%>
+            <%- include(view) -%>
+        </div>
+
+        
+      </main>
+    </div>
+  <% } %> 
+  <%- include('partials-doc/footer') -%>
+<script src="/docs/5.2/js/bootstrap.bundle.min.js"></script>
+<script src="/docs/5.1/assets/js/docs.min.js"></script>
+</body>
+</html>

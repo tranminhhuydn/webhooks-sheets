@@ -1,0 +1,97 @@
+
+<!--  <style type="text/css">
+   .right {float: right;clear: both;}
+   .left {float: left;clear: both;}
+   #bottom {float: left;clear: both;}
+ </style> -->
+  
+
+<div ng-app="myApp">
+  
+  <div ng-controller='ctrlUsers'>
+    <div ng-controller='ctrlChatroom'>
+    
+  <my-login></my-login>
+  <my-register></my-register>
+  <my-tabs
+  ng-show="views.chatApp"
+  on-init="getCtrlTabs(obj)"
+  >
+  <my-pane 
+  title="Chat"
+  icon= 'glyphicon glyphicon-th-list'
+  >
+    <form>
+    <input type='text'>
+    <button><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+    </form>
+    <hr>
+      <div ng-repeat="user in data">
+        <div ng-class="{'has-sms':user.numsms}"
+        ng-click="chatRoom(user)"
+        >{{user.name}}  <span ng-class="{isonline:user.online}"> {{user.numsms}}</span></div>
+      </div>
+  </my-pane>
+  <my-pane 
+  title="online"
+  icon ='glyphicon glyphicon-user'
+  >
+      <div ng-repeat="user in dataOnline()">
+        <div 
+        ng-class="{'has-sms':user.numsms}"
+        ng-click="chatRoom(user)"
+        >{{user.name}}  <span ng-class="{isonline:user.online}"> {{user.numsms}}</span></div>
+      </div>
+      
+      <div ng-repeat="user in ctrlChatroom.users">
+        <div>{{user}}</div>
+      </div>
+      
+  </my-pane>
+  <my-pane 
+  title="Chat room"
+  icon = 'glyphicon glyphicon-send'
+  >
+      
+    <div class="overflowable"
+    my-get-height>
+      <div ng-repeat="user in comments">
+        <div ng-class="[{right:user.name!=boot.name,left:user.name==boot.name}]"><b>{{user.name}}</b>:{{user.comment}}</div>
+      </div>
+      <a id='bottom'>cuoi ban tin</a>
+    </div>
+  <hr>
+  <form>
+  <input type='text' 
+  ng-value = 'message'
+  ng-model='message'>
+  <button
+  ng-click='send(message);message=""'
+  >
+    <span class="glyphicon glyphicon-send" aria-hidden="true"></span></button>
+    <button ng-click="test()">test</button>
+  </form>
+  </my-pane>
+</my-tabs>
+</div>
+</div>
+
+<div>
+
+
+  <script src="/js/angular/angular.min.js"></script>
+  
+  <script src="/js/angular/angular-sanitize.js"></script>
+  <script src='/socket.io/socket.io.js'></script>
+  <script src="/app-sms/services.js"></script>
+  <script src="/app-sms/myDirective.js"></script>
+  <script src="/app-sms/ctrl-users.js"></script> 
+  <script src="/app-sms/ctrl-chatroom.js"></script> 
+  <!-- 
+  <script src='/js/lib/angular/angular.js'></script>
+  <script src='/socket.io/socket.io.js'></script>
+  <script src='/js/app.js'></script>
+  <script src='/js/services.js'></script>
+  <script src='/js/ctrlDownload.js'></script>
+  <script src='/js/filters.js'></script>
+  <script src='/js/directives.js'></script> -->

@@ -1,0 +1,16 @@
+<h1>list user</h1>
+<a class="btn btn-primary" href="/<%=locals.controller%>/add">add</a>
+<ul class="row">
+    <li class="row">
+        <div class="col">name</div>
+        <div class="col">email</div>
+        <div class="col">role</div>
+    </li>
+    <% data.map(i=>{ %>
+        <li class="row">
+            <div class="col"><%=i.name%></div>
+            <div class="col"><%=i.email%></div>
+            <div class="col"><%=i.role%></div>
+        </li>
+        <% }) %>
+</ul>

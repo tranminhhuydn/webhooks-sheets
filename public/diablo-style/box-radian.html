@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Diablo style</title>
+		<style type="text/css">
+		/*word : 4c3525
+		word : 4b3925
+		word : 4d3626
+		word : 462f1f
+		word : 492f20
+		word : 503627
+		word : 4e3928
+		line : bbaa8e
+		line : b09f81
+		line : b4a385
+		line : bfae92
+		pager : c7b99f
+		border 1: 190e08
+		border 2: 554128
+		border 3: 604d2f
+		border 4: 97836a
+		background: 251d1a*/
+		.outer {
+		box-sizing: border-box;
+		padding: 25px;
+		height: 200px;
+		width: 200px;
+		box-shadow: 0px 0px 10px 10px #444 inset;
+		border-radius: 50%;
+		background: linear-gradient(to bottom right, rgb(250,50,50), rgb(50,150,250));
+		}
+		.outer::before {
+		content: "";
+		display: block;
+		position: relative;
+		left: -26px;
+		top: -26px;
+		height: 202px;
+		width: 202px;
+		border-radius: 50%;
+		border: 3px solid #444;
+		box-sizing: border-box;
+		}
+		.outer {
+		display: inline-block;
+		vertical-align: middle;
+		}
+		.inner {
+		position:relative;
+		top: -204px;
+		left: -3px;
+		border-radius: 50%;
+		background: linear-gradient(to bottom right, #ee2135, #6279ff);
+		padding: 2px;
+		height: 150px;
+		width: 150px;
+		box-shadow: 0px 0px 30px -5px black;
+		}
+		.content {
+		height: 100%;
+		width: 100%;
+		background: #444;
+		border-radius: 50%;
+		}
+		.outer2 {
+		box-sizing: border-box;
+		padding: 25px;
+		/*box-shadow: 0px 0px 14px 7px #73572969 inset;*/
+		/* background: linear-gradient(to bottom right, rgb(134 110 49 / 56%), rgb(139 116 48 / 80%)); */
+		/*background: #bfae928a;*/
+		}
+		.outer2 {
+		/*display: inline-block;
+		vertical-align: middle;*/
+		/*background: linear-gradient(to bottom right, #8e734ae8 10%, #e6d8c245 80%), linear-gradient(to bottom left, #79634a96 30px, #66533e78 150px);*/
+		background: #7a674e;
+		}
+		.inner2 {
+		/*box-shadow: 0px 0px 30px -5px black;*/
+		/*box-shadow: 0px 0px 30px -5px #7357294f;*/
+		
+		}
+		.content2 {
+			background-image: linear-gradient(to right,#806a4c 1%,#d4c6abcc 20%,#d4c6abcc 80%, #806a4c 99%);
+			box-shadow: inset 0px 0px 30px 20px #7a674e;
+			color: #503d21;
+			text-shadow: 0 0 5px #988871;
+			font-size: xx-large;
+			font-family: sans-serif;
+			padding: 20px
+		}
+		/* Styling only past here */
+		html, body {
+		text-align: center;
+		padding: 0px;
+		margin: 0px;
+		height: 100%;
+		background: #251d1a;
+		}
+		body::before {
+		content: "";
+		display: inline-block;
+		vertical-align: middle;
+		height: 100%;
+		}
+		h1{
+			border-bottom: 1px solid #a39071;
+		text-align: left;
+		}
+		.template{
+			background-image: url(box.jpg);
+			width: 1231px;
+			height: 177px;
+		}
+		</style>
+	</head>
+	<body>
+		<div class="outer">
+			<div class="inner">
+				<div class="content">
+				</div>
+			</div>
+		</div>
+		<div class="outer2">
+			<div class="inner2">
+				<div class="content2">
+					<h1>express()</h1>
+					<div>Creates an Express application. The express() function is a top-level function exported by the express module</div>
+				</div>
+			</div>
+		</div>
+		<div class="template"></div>
+		
+		<style type="text/css">
+		.outer3 {
+		box-sizing: border-box;
+		padding: 25px;
+
+		background: #070302;
+		border: 1px solid #59433b;
+		width: 341px;
+
+		/*display: inline-block;
+		vertical-align: middle;*/
+		}
+		.content3 {
+			color: #6b5b4e;
+			font-size: xx-large;
+			font-family: sans-serif;
+			padding: 20px;
+			text-align: justify
+		}
+		.content3 h1{
+			border-bottom: 1px solid #612e1f;
+			/*border-bottom: 1px solid linear-gradient(to right,#070302 1%,#612e1f,#612e1f, #070302);*/
+		}
+		.template-notification{
+			width: 341px;
+			height: 500px;
+			background-image: url(notificaiton.jpg);
+		}
+		</style>
+		<div class="template-notification"></div>
+		<div class="outer3">
+			<div class="inner3">
+				<div class="content3">
+					<h1>express()</h1>
+					<div>Creates an Express application. The express() function is a top-level function exported by the express module</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

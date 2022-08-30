@@ -1,0 +1,21 @@
+word : 4c3525
+word : 4b3925
+word : 4d3626
+word : 462f1f
+word : 492f20
+word : 503627
+word : 4e3928
+
+line : bbaa8e
+line : b09f81
+line : b4a385
+line : bfae92
+
+pager : c7b99f
+
+border 1: 190e08
+border 2: 554128
+border 3: 604d2f
+border 4: 97836a
+
+background: 251d1a

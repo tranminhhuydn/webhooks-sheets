@@ -1,0 +1,58 @@
+<h4>downloadDdocs</h4>
+<form action="/site/downloadDdocs" method="post">
+  <div>
+    <label for="address">Site Address:
+      <input type="text" name="address" n-bind='address' placeholder="Site Address">
+    </label>
+    <!-- <div n-bind='address'></div> -->
+  </div>
+  <div>
+    <label for="folderName">Folder name:
+      <input type="text" name="folderName" n-bind='folderName' placeholder="Folder Name">
+    </label>
+    <!-- <div n-bind='folderName'></div> -->
+  </div>
+  <div>
+    <span>status:</span>
+    <span n-bind='status'></span>
+  </div>
+  <input type="submit" name="submit" value="Download">
+  <button id='cmd-recevied'>testRecevied</button>
+  <div n-bind='testRecevied'></div>
+</form> 
+<script src='/socket.io/socket.io.js'></script>
+<script src="/websocket/d.js"></script>
+<script src="/websocket/n.js"></script>
+<script src='/websocket/socket.js'></script>
+<script type="text/javascript">
+  //function ctr (scope){
+var ctr
+
+n.load =()=>{
+  var ctrName = '/site/'
+  ctr = (function(scope) {
+      scope.status = "0/0"
+      scope.folderName = "default"
+      scope.address = "https://somesite"
+    
+    //n.bindOld = scope
+
+    //Socket Event
+    socket.init(ctrName,{
+      docs:(recevied)=>{
+        scope.testRecevied = JSON.stringify(recevied)
+      }
+    })
+  }(n.bind));
+  //Event 
+    cmdRecevied.onclick=(e)=>{
+      e.preventDefault();
+      //alert('ok')
+      var scope = n.bind
+      var b = scope
+      b.testRecevied = ''
+      socket.emit(ctrName+'docs',b)
+      return false;
+    }
+} 
+</script>

@@ -1,0 +1,56 @@
+<%
+  function subsite(parent,objs){
+    for(var key in objs) {
+        var parentPath = parent+"["+key+"]"
+        var children = objs[key]
+        if(typeof children === 'string'){
+        %>
+          <div class='col-6'>
+            <%=parentPath%>
+          </div>
+          <div class='col-6'>
+            <input class="form-control" type="text" name="<%=parentPath%>" value="<%=children%>"/>
+          </div>
+        <% 
+        }else if(Array.isArray(children)){
+        %>
+          <div class='row'>
+            <%=parentPath%>
+          
+          <% children.map((k,i)=>{ %>
+          <div class='row'>
+            <div class='col-6'> </div>
+            <div class='col-6'>
+              <input class="form-control" type="text" name="<%=parentPath%>[]" value="<%=k%>"/>
+            </div>
+          </div>
+          <%
+          })
+          %>
+          </div>
+          
+        <% 
+        }else{
+          subsite(parentPath,children)
+        }
+      }
+         %>
+    <%
+  }
+%>
+<h1>Setting sites</h1>
+<form id="login" class="form-horizontal" method="post" action="/main/setting">
+  <input type="hidden" name="line" value="yes"/>
+  <% 
+    for(var key in config) {
+    var objs = config[key]
+  %>
+    <div class='row'>
+      <h4><%=key%></h4>
+      <% subsite(key,objs) %>
+    </div>
+  <% } %>
+    <input type="text" name="_csrf" value="" />
+    <input type="submit" value="submit" class="btn" />
+</form>
+

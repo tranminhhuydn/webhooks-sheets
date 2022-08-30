@@ -1,0 +1,12 @@
+  <h1>Main-slug</h1>
+  <ul>
+    <% if(params.parent){%>
+        <li>parent <%=params.parent%></li>
+    <% } %>
+    <% if(params.farther){%>
+        <li>farther <%=params.farther%></li>
+    <% } %>
+    <% if(params.child){%>
+        <li>child <%=params.child%></li>
+    <% } %>
+  </ul>

@@ -1,0 +1,35 @@
+
+      <div class="position-sticky" style="top: 2rem;">
+        <div class="p-4 mb-3 bg-light rounded">
+          <h4 id='all-sms'>All SMS (<span n-bind='countAllSMS'></pan>)</h4>
+          <form action="#" id=user-form>
+          <div>Your Name: <input id="user-name" type='text' ></div>
+          <div>id: <span id="user-id"></span></div>
+          </form>
+          <h4>members</h4>
+          <!-- <ul id='user-list' class="list-unstyled mb-0"></ul> -->
+          <ul id='user-list' n-repeat='users' data-n-template='<li id="{{id}}"><a href="#" onclick=setRoomId(event) oncontextmenu=setMember(event) data-id="{{id}}">{{name}}</a></li>'></ul>
+        </div>
+
+        <div class="p-4">
+          <form action="#" id="room-form">
+          <div>Room Name: <input id="room-name" n-bind="roomName" type='text' value="room1"></div>
+          <div><button id='bnt-create-room'>Create room</button></div>
+          </form>
+          <h4 class="fst-italic">Rooms</h4>
+          <ul n-repeat='rooms1' data-n-template='<li><a href="#" onclick="talkRoom(event)">{{roomname}}</a> <button onclick="joinRoom(event)">join</button></li>'></ul>
+        </div>
+
+        <div class="p-4">
+          <h4 class="fst-italic">Elsewhere</h4>
+          <ol class="list-unstyled">
+            <li><a href="#">GitHub</a></li>
+            <li><a href="#">Twitter</a></li>
+            <li><a href="#">Facebook</a></li>
+          </ol>
+        </div>
+      </div>
+  <script src="/websocket/d.js"></script>
+  <script src="/websocket/n.js"></script>
+  <script src="/websocket/socket.js"></script>
+  <script src="/websocket/websocket.js"></script>

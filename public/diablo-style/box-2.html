@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Diablo style</title>
+<style type="text/css">
+
+/*word : 4c3525
+word : 4b3925
+word : 4d3626
+word : 462f1f
+word : 492f20
+word : 503627
+word : 4e3928
+
+line : bbaa8e
+line : b09f81
+line : b4a385
+line : bfae92
+
+pager : c7b99f
+
+border 1: 190e08
+border 2: 554128
+border 3: 604d2f
+border 4: 97836a
+
+background: 251d1a*/
+body {
+  background-color: #251d1a;
+  color: white;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: auto;
+  grid-gap: 20px;
+  //border: 1px solid white;  
+}
+
+.blurBox {
+  grid-row: 1 / 1;
+  grid-column: 1 / 1;
+  background: linear-gradient(-45deg, #3c311e, #3c311e);
+  filter: blur(5px);
+  border-radius: 5px;
+}
+
+.inputBox {
+  grid-row: 1 / 1;
+  grid-column: 1 / 1;
+  margin: 7px;
+  background: #c7b99f;
+  border: 1px solid black;
+  border-radius: 5px;
+  z-index: 1;
+}
+
+.fName {
+  margin: 20px;
+  border: 1px solid white;
+}
+
+.lName {
+  margin: 20px;
+  border: 1px solid white;
+}
+</style>
+</head>
+  <body>
+    <div class="grid">
+      <div class="blurBox"></div>
+      <div class="inputBox">
+      	<h1>box</h1>
+      	<p>sao khong biet duoc</p>
+        <div class="fName">f</div>
+        <div class="lName">l</div>  
+      </div>
+    </div>
+  </body>
+</html>

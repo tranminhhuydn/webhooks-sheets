@@ -1,0 +1,58 @@
+<meta name="google-signin-client_id" content="425079807628-9o139d290mdho0jugh0gamv4sp9sdst8.apps.googleusercontent.com">
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<style type="text/css">
+  .hidden{display: none;}
+</style>
+
+<h4>Login</h4>
+   <!-- <form action="<%=form.url%>" method="post">
+    <div>
+      <label for="email">Email:
+        <input type="text" name="email" placeholder="email">
+      </label>
+    </div>
+    <div>
+      <label for="password">Password:
+        <input type="password" name="password">
+      </label>
+    </div>
+    <input type="submit" name="submit" value="login">
+  </form> -->
+  <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+  <a id='signOut' href="#" onclick="signOut();" class='hidden'>Sign out</a>
+  <script>
+  function signOut() {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        console.log('User signed out.');
+        status()
+      });
+  }
+  function status() {
+    document.querySelector('.g-signin2').classList.toggle('hidden')
+    document.querySelector('#signOut').classList.toggle('hidden')
+  }
+  function onSignIn(googleUser) {
+      // var profile = googleUser.getBasicProfile();
+      // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+      // console.log('Name: ' + profile.getName());
+      // console.log('Image URL: ' + profile.getImageUrl());
+      // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+      var id_token = googleUser.getAuthResponse().id_token;
+      // console.log(id_token);
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/user/login');
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onload = function() {
+          console.log('Signed in as: ' + xhr.responseText);
+          if(xhr.responseText == 'success'){
+              //signOut();
+              location.assign('/user')
+          }
+      };
+      xhr.send(JSON.stringify({token : id_token}));
+    }
+  </script>
