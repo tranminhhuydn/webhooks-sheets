@@ -1,33 +1,9 @@
 {
-	"MAINMENU": [
-		{
-			"text": "Booking",
-			"url": "/developer/"
-		},
-		{
-			"text": "4.x API",
-			"url": "/developer/express4xAPI"
-		},
-		{
-			"text": "news",
-			"url": "/a/index"
-		},
-		{
-			"text": "Admin",
-			"url": "/user/admin"
-		},
-		{
-			"text": "Messager",
-			"url": "/chats/websocket"
-		},
-		{
-			"text": "Setting",
-			"url": "/setting/setting"
-		},
+	"MAINMENU":[
 		{
 			"text": "login",
-			"url": "/user/login"
-		}
+		    "url": "/user/login"
+		} 
 	],
 	"footer": {
 		"Site-name": "blog 5 khong the",
@@ -35,9 +11,9 @@
 	},
 	"route": {
 		"user": "user",
-		"site": "s",
-		"articles": "a",
-		"categoties": "c"
+		"site": "site",
+		"articles": "articles",
+		"categoties": "categoties"
 	},
 	"role": [
 		"admin",
@@ -63,15 +39,9 @@
 				"public"
 			]
 		},
-		"a": {
-			"index": [
-				"admin",
-				"manager",
-				"poster",
-				"basic",
-				"public"
-			]
+		"a":{
+			"index":["admin","manager","poster","basic","public"]
 		}
 	},
-	"deploy": false
+	"deploy":false
 }
