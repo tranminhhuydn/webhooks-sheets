@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
 	"MAINMENU":[
+=======
+	"MAINMENU": [
+>>>>>>> 8dea433b0c8bbf01bdef537fc7aee86ddd70d74c
 		{
 			"text": "login",
 		    "url": "/user/login"
@@ -43,5 +47,10 @@
 			"index":["admin","manager","poster","basic","public"]
 		}
 	},
+<<<<<<< HEAD
 	"deploy":false
 }
+=======
+	"deploy": false
+}
+>>>>>>> 8dea433b0c8bbf01bdef537fc7aee86ddd70d74c
