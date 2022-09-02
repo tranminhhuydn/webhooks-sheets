@@ -9,13 +9,6 @@ var {
 
 async function connectionDB(req, res, next) {
     try {
-        // if(!fs.existsSync('./dist'))
-        //     fs.mkdirSync('./dist')
-
-        // if(!fs.existsSync('./dist/credentials.json')){
-        //     return res.redirect('/main/credentials')
-        // }
-
         const auth = new google.auth.GoogleAuth({
             keyFile: "./dist/credentials.json",
             scopes: "https://www.googleapis.com/auth/spreadsheets",
