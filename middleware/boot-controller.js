@@ -28,9 +28,9 @@ module.exports = function(parent, options) {
             })
             console.log('     %s -> before -> %s', urlRoute, fnStr);
         } else {
-            methods.forEach(m=>{
-                app[m](urlRoute, globalValue, handler);
-            })
+            // methods.forEach(m=>{
+            //     app[m](urlRoute, globalValue, handler);
+            // })
             methods.forEach(m=>{
                 if(obj.middleware && obj.middleware[fnStr]){
                     app[m](urlRoute, globalValue, obj.middleware[fnStr], handler);

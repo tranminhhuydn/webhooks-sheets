@@ -1,11 +1,43 @@
 var
     fs = require('fs'),
     path = require('path')
+const { google } = require("googleapis");
 
 var {
     ROLE
 } = require('../models/user');
 
+async function connectionDB (req, res, next) {
+    const auth = new google.auth.GoogleAuth({
+        keyFile: "./dist/credentials.json",
+        scopes: "https://www.googleapis.com/auth/spreadsheets",
+    });
+
+    // Create client instance for auth
+    const client = await auth.getClient();
+
+    // Instance of Google Sheets API
+    const googleSheets = google.sheets({ version: "v4", auth: client });
+
+    const spreadsheetId = fs.readFileSync("./dist/sheetid.txt","utf8");
+    // Get metadata about spreadsheet
+    const metaData = await googleSheets.spreadsheets.get({
+        auth,
+        spreadsheetId,
+    });
+    const dbObject = googleSheets.spreadsheets.values
+    const sysApi = {
+        auth:auth,
+        client:client,
+        googleSheets:googleSheets,
+        spreadsheetId:spreadsheetId,
+        metaData:metaData,
+        dbObject:dbObject
+    }
+    req.sysApi = sysApi
+    next()
+}
+exports.connectionDB = connectionDB 
 exports.iniSite = function(req, res, next) {
   
     res.locals.config = JSON.parse(fs.readFileSync('./config/setting.json', 'utf8'));
@@ -87,7 +119,7 @@ exports.iniSite = function(req, res, next) {
         //console.log('-----------layout',res.locals.layout )
         res.locals.view = app.get('views') + '/' + view
         var layout = res.locals.layout=='../views/layout'? 'layout.doc.ejs': res.locals.layout
-            //console.log('-----------layout',layout )
+            // console.log('-----------layout',layout )
             // console.log('view',res.locals.view )
             // render
         app.render(layout, opts, done);

@@ -1,0 +1,19 @@
+<h1>Projects</h1>
+<a class="btn btn-primary" href="/<%=locals.controller%>">list</a>
+<form action="/<%=locals.controller%>/add" method="POST">
+<div>
+    <div for="">project name</div>
+    <input type="text" name="name">
+</div>
+<div>
+    <div for="">Credentials.json</div>
+    <textarea name="credentialsjson"></textarea>
+</div>
+<div>
+    <div for="">sheetid</div>
+    <input type="text" name="sheetid">
+</div>
+<div>
+    <button type="submit" class="btn btn-primary">create</button>
+</div>
+</form>

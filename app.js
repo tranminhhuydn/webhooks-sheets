@@ -77,17 +77,16 @@ var {
     accessRole
 } = require('./middleware/basic-auth');
 
+//INIT SITE
+var {
+    connectionDB,
+    iniSite
+} = require('./middleware/init-site');
+app.use(connectionDB)
 //HELPER
 app.use(async function(req, res, next) {
-
-    res.locals.messages = req.flash();
-
-    //INIT SITE
-    var {
-        iniSite
-    } = require('./middleware/init-site');
+    res.locals.messages = req.flash();    
     iniSite(req, res, next)
-
     return accessRole(req, res, next)
 });
 
