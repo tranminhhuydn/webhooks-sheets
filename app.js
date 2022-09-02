@@ -82,7 +82,9 @@ var {
     connectionDB,
     iniSite
 } = require('./middleware/init-site');
-app.use(connectionDB)
+if(fs.existsSync('./dist/credentials.json'))
+    app.use(connectionDB)
+
 //HELPER
 app.use(async function(req, res, next) {
     res.locals.messages = req.flash();    

@@ -7,35 +7,46 @@ var {
     ROLE
 } = require('../models/user');
 
-async function connectionDB (req, res, next) {
-    const auth = new google.auth.GoogleAuth({
-        keyFile: "./dist/credentials.json",
-        scopes: "https://www.googleapis.com/auth/spreadsheets",
-    });
+async function connectionDB(req, res, next) {
+    try {
+        // if(!fs.existsSync('./dist'))
+        //     fs.mkdirSync('./dist')
 
-    // Create client instance for auth
-    const client = await auth.getClient();
+        // if(!fs.existsSync('./dist/credentials.json')){
+        //     return res.redirect('/main/credentials')
+        // }
 
-    // Instance of Google Sheets API
-    const googleSheets = google.sheets({ version: "v4", auth: client });
+        const auth = new google.auth.GoogleAuth({
+            keyFile: "./dist/credentials.json",
+            scopes: "https://www.googleapis.com/auth/spreadsheets",
+        });
 
-    const spreadsheetId = fs.readFileSync("./dist/sheetid.txt","utf8");
-    // Get metadata about spreadsheet
-    const metaData = await googleSheets.spreadsheets.get({
-        auth,
-        spreadsheetId,
-    });
-    const dbObject = googleSheets.spreadsheets.values
-    const sysApi = {
-        auth:auth,
-        client:client,
-        googleSheets:googleSheets,
-        spreadsheetId:spreadsheetId,
-        metaData:metaData,
-        dbObject:dbObject
+        // Create client instance for auth
+        const client = await auth.getClient();
+
+        // Instance of Google Sheets API
+        const googleSheets = google.sheets({ version: "v4", auth: client });
+
+        const spreadsheetId = fs.readFileSync("./dist/sheetid.txt", "utf8");
+        // Get metadata about spreadsheet
+        const metaData = await googleSheets.spreadsheets.get({
+            auth,
+            spreadsheetId,
+        });
+        const dbObject = googleSheets.spreadsheets.values
+        const sysApi = {
+            auth: auth,
+            client: client,
+            googleSheets: googleSheets,
+            spreadsheetId: spreadsheetId,
+            metaData: metaData,
+            dbObject: dbObject
+        }
+        req.sysApi = sysApi
+        next()
+    } catch (e) {
+        console.log(e)
     }
-    req.sysApi = sysApi
-    next()
 }
 exports.connectionDB = connectionDB 
 exports.iniSite = function(req, res, next) {
