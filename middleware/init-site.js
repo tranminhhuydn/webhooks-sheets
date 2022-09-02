@@ -20,7 +20,9 @@ async function connectionDB(req, res, next) {
         // Instance of Google Sheets API
         const googleSheets = google.sheets({ version: "v4", auth: client });
 
-        const spreadsheetId = fs.readFileSync("./dist/sheetid.txt", "utf8");
+        const spreadsheetId = process.env.SHEETID
+        //const spreadsheetId = fs.readFileSync("./dist/sheetid.txt", "utf8");
+        
         // Get metadata about spreadsheet
         const metaData = await googleSheets.spreadsheets.get({
             auth,

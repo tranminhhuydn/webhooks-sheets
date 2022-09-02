@@ -82,7 +82,9 @@ var {
     connectionDB,
     iniSite
 } = require('./middleware/init-site');
-if(fs.existsSync('./dist/credentials.json'))
+if(!fs.existsSync('./dist/credentials.json')){
+    fs.writeFileSync('./dist/credentials.json',process.env.CREDENTIALS)
+}
     app.use(connectionDB)
 
 //HELPER
