@@ -77,14 +77,18 @@ var {
     accessRole
 } = require('./middleware/basic-auth');
 
+console.log(process.env.CREDENTIALS)
+
+if(!fs.existsSync('./dist/credentials.json')){
+    fs.writeFileSync('./dist/credentials.json',process.env.CREDENTIALS,"utf8")
+}
+
 //INIT SITE
 var {
     connectionDB,
     iniSite
 } = require('./middleware/init-site');
-if(!fs.existsSync('./dist/credentials.json')){
-    fs.writeFileSync('./dist/credentials.json',process.env.CREDENTIALS)
-}
+
     app.use(connectionDB)
 
 //HELPER
