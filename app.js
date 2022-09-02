@@ -30,6 +30,9 @@ if(!fs.existsSync("config/setting.json")){
 console.log('---------------------------process.env.CREDENTIALS')
 console.log(process.env.CREDENTIALS)
 
+if(!fs.existsSync('./dist'))
+    fs.mkdirSync('./dist')
+
 if(!fs.existsSync('./dist/credentials.json')){
     fs.writeFileSync('./dist/credentials.json',process.env.CREDENTIALS,"utf8")
 }
