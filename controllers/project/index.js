@@ -112,6 +112,8 @@ exports.prebind = async function (req,res,next) {
     console.log('------------------------')
     console.log(result)
     if (result) {
+        if(!fs.existsSync('./dist/tmp'))
+            fs.mkdirSync('./dist/tmp')
         fs.writeFileSync(`./dist/tmp/${id}-credentials.json`, result[4], 'utf8')
         fs.writeFileSync(`./dist/tmp/${id}-sheetid.txt`, result[5], 'utf8')
         //next(bind)
