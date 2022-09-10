@@ -1,16 +1,18 @@
 <h1>Projects</h1>
 <a class="btn btn-primary" href="/<%=locals.controller%>">list</a>
+<div> 
+    <ul>
+        <li>1 Create google sheet file </li>
+        <li>2 Share your google sheet with <br> account: <b><%=clientemail%></b>  </li>
+    </ul>
+</div>
 <form action="/<%=locals.controller%>/add" method="POST">
 <div>
-    <div for="">project name</div>
+    <div for="">Project name</div>
     <input type="text" name="name">
 </div>
 <div>
-    <div for="">Credentials.json</div>
-    <textarea name="credentialsjson"></textarea>
-</div>
-<div>
-    <div for="">sheetid</div>
+    <div for="">Google Sheetid</div>
     <input type="text" name="sheetid">
 </div>
 <div>

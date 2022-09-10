@@ -1,14 +1,88 @@
+const console = require("console");
 const fs = require("fs");
 const { google } = require("googleapis");
+async function getSheetId (req, res) {
+    var id = projectID = req.params[0]
 
+    const {auth, spreadsheetId, dbObject } = req.sysApi
+    //read
+    const getRows = await dbObject.get({
+        auth,
+        spreadsheetId,
+        range: "project!A:F",
+    });
+    const {values} = getRows.data
+    var iget =   values.find((e,i)=>{return e[0]==id})
+    //console.log(iget)
+    return iget
+};
 exports.before = async function(req, res,next) {
     next()
 }
-exports.index = async function(req, res) {
-    // console.log('----------------cookie');
-    // console.log(req.cookies);
+exports.join = async function(req, res) {
+    var id=projectID = req.params[0]
+    var token = req.cookies['session-token']
+    const { googleSheets, auth, spreadsheetId, dbObject } = req.sysApi
+    //read
+    const getRows = await dbObject.get({
+        auth,
+        spreadsheetId,
+        range: "member!A:C",
+    });
+    //find
+    const { values } = getRows.data
+    const result = values.find((e, i) => {
+        if (e[1] == token.email) return e
+    })
+    //write
+    if (!result) {
+        await googleSheets.spreadsheets.values.append({
+            auth,
+            spreadsheetId,
+            range: "member!A:C",
+            valueInputOption: "USER_ENTERED",
+            resource: {
+                values: [[id,token.email,'open']],
+            },
+        });
+        req.flash('success', req.t('You are join this project'))
+        return res.redirect("/"+res.controller+"/members/"+id)
+    }
+    req.flash('denger', req.t('You are realy join this project'))
+    return res.redirect("/"+res.controller+"/members/"+id)
+};
+exports.members = async function(req, res) {
+    var id=projectID = req.params[0]
 
-    const {auth, spreadsheetId,dbObject } = req.sysApi
+    const {auth, spreadsheetId, dbObject } = req.sysApi
+
+    //read project 
+    const getProjectRows = await dbObject.get({
+        auth,
+        spreadsheetId,
+        range: "project!A:F",
+    });
+    var {values} = getProjectRows.data
+    var project =   values.find((e,i)=>{return e[0]==id})
+    console.log(project)
+
+    const getRows = await dbObject.get({
+        auth,
+        spreadsheetId,
+        range: "member!A:C",
+    });
+    
+    //filter
+    var { values } = getRows.data
+    const result = values.filter((e, i) => {
+        if (e[0] == id) return e
+    })
+    console.log(result)
+    res.render('members',{data:result,project:project})
+};
+exports.index = async function(req, res) {
+
+    const {auth, spreadsheetId, dbObject } = req.sysApi
     //read
     const getRows = await dbObject.get({
         auth,
@@ -22,7 +96,7 @@ exports.index = async function(req, res) {
     res.render('index',{data:values})
 };
 exports.add = async function(req, res) {
-    //Tự Điển Viện Nghiên Cứu Phật Học Việt Nam
+
     if(req.method=='POST'){
         const {name,credentialsjson,sheetid} = req.body
         const {auth, spreadsheetId,dbObject } = req.sysApi
@@ -53,42 +127,9 @@ exports.add = async function(req, res) {
         return res.redirect(`/${res.controller}/`)
     }
     if(req.method=='GET'){
+        clientemail = process.env.CLIENT_EMAIL
         res.render('add')
     }
-}
-
-exports.prebind = async function (req,res,next) {
-
-    var id=projectID = req.params[0]
-    var { sheetname, cellColum, cellRow, cellValue } = req.query
-    var clienDB
-
-    const { auth, spreadsheetId, dbObject } = req.sysApi
-    //read
-    const getRows = await dbObject.get({
-        auth,
-        spreadsheetId,
-        range: "project!A:F",
-    });
-    const { values } = getRows.data
-    clienDB = values
-    //res.cookie('clienDB', clienDB)
-
-
-    const result = clienDB.find((e, i) => {
-        if (e[0] == projectID) return e
-    })
-    console.log('------------------------')
-    console.log(result)
-    if (result) {
-        if(!fs.existsSync('./dist/tmp'))
-            fs.mkdirSync('./dist/tmp')
-        fs.writeFileSync(`./dist/tmp/${id}-credentials.json`, result[4], 'utf8')
-        fs.writeFileSync(`./dist/tmp/${id}-sheetid.txt`, result[5], 'utf8')
-        //next(bind)
-    }
-    var strQ = strQFn(req.query)
-    return res.redirect(`/${res.controller}/bind/${id}?${strQ}`)
 }
 function strQFn(query){
     var strQ = ''
@@ -97,17 +138,19 @@ function strQFn(query){
     strQ = strQ.slice(0,strQ.length-1)
     return strQ
 }
-async function bind(req, res, next) {
+exports.bind = async function (req, res, next) {
     var id = projectID = req.params[0]
     //Sheet1%27&cellColum=%27A%27&cellRow=%271%27&cellValue=%27toi%27%27
     //return res.send(strQ)
+    var data = await getSheetId(req, res)
+    console.log(data)
     var { SheetName, Column, RowNumber, CelValue, Type } = req.query
     var strQ = strQFn(req.query)
-    if (!fs.existsSync(`./dist/tmp/${id}-sheetid.txt`))
-        return res.redirect(`/${res.controller}/prebind/${id}?${strQ}`)
+    //data
     try {
         const auth = await authorize(id);
-        const spreadsheetId = fs.readFileSync(`./dist/tmp/${id}-sheetid.txt`, 'utf8')
+        //const spreadsheetId = fs.readFileSync(`./dist/tmp/${id}-sheetid.txt`, 'utf8')
+        const spreadsheetId = data[5]
         const googleSheets = google.sheets({ version: "v4", auth: auth });
         let response
         let request = {
@@ -126,13 +169,28 @@ async function bind(req, res, next) {
             request.range =  `${SheetName}!${Column}${RowNumber}`
             response = (await googleSheets.spreadsheets.values.update(request)).data;           
         }
+        if (Type == 'Paste'||Type=='Clear') {
+            //console.log(`${SheetName}!${Column}:${RowNumber}`)
+            //console.log(JSON.parse(CelValue))
+            request = {
+                auth,
+                spreadsheetId,
+                valueInputOption: "USER_ENTERED",
+                range: `${SheetName}!${Column}:${RowNumber}`,//'public!A186:C191',
+                resource: {
+                    values: JSON.parse(CelValue)
+                    
+                },
+            }
+            response = (await googleSheets.spreadsheets.values.update(request)).data;
+        }
         if(Type=='Insert'){
         }
         if(Type=='Delete'){
+            var { startIndex,endIndex } = req.query
             const requestSheet = {
                 spreadsheetId: spreadsheetId,
-                //sheets:`${SheetName}!`,
-                ranges: [`${SheetName}!${Column}${RowNumber}`], 
+                ranges:  [`${SheetName}!${Column}${RowNumber}`], 
                 includeGridData: false,
                 auth: auth,
               };
@@ -140,8 +198,8 @@ async function bind(req, res, next) {
             const responseSheet = (await googleSheets.spreadsheets.get(requestSheet)).data;
             // TODO: Change code below to process the `response` object:
             //console.log(JSON.stringify(responseSheet, null, 2));
-            console.log(responseSheet.sheets[0].properties.sheetId);
-            console.log(parseInt(RowNumber));
+            // console.log(responseSheet.sheets[0].properties.sheetId);
+            // console.log(parseInt(RowNumber));
             RowNumber = parseInt(RowNumber)-1
             const resource = {
                 "requests": [
@@ -150,8 +208,8 @@ async function bind(req, res, next) {
                       "range": {
                         "sheetId": responseSheet.sheets[0].properties.sheetId,
                         "dimension": "ROWS",
-                        "startIndex": RowNumber,//parseInt(RowNumber),
-                        "endIndex": RowNumber+1
+                        "startIndex": parseInt(startIndex)-1 ,//RowNumber,//parseInt(RowNumber),
+                        "endIndex": endIndex //RowNumber+1
                       }
                     }
                   }
@@ -164,12 +222,12 @@ async function bind(req, res, next) {
                 resource: resource
             })).data;   
         }
-        if(Type=='Clear'){
-            request.range =  `${SheetName}!${Column}${RowNumber}`
-            request.resource={}
-            request.valueInputOption = undefined
-            response = (await googleSheets.spreadsheets.values.clear(request)).data;           
-        }
+        // if(Type=='Clear'){
+        //     request.range =  `${SheetName}!${Column}${RowNumber}`
+        //     request.resource={}
+        //     request.valueInputOption = undefined
+        //     response = (await googleSheets.spreadsheets.values.clear(request)).data;           
+        // }
         console.log(JSON.stringify(response, null, 2)); 
     } catch (e) {
         console.error(e)
@@ -177,10 +235,10 @@ async function bind(req, res, next) {
     }
     return res.send(`{"message":"create"}`)
 }
-exports.bind = bind
+
 async function authorize(id) {
     const auth = new google.auth.GoogleAuth({
-        keyFile: `./dist/tmp/${id}-credentials.json`,
+        keyFile: "./dist/credentials.json",
         scopes: "https://www.googleapis.com/auth/spreadsheets",
     });
 
@@ -191,4 +249,6 @@ async function authorize(id) {
     }
   
     return authClient;
-  }
+
+}
+

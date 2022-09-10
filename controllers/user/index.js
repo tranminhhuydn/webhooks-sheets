@@ -1,5 +1,7 @@
 var fs = require('fs');
 var path = require('path');
+
+
 exports.before = async function(req, res, next) {
     res.locals.title = 'User'
     next();
@@ -25,10 +27,7 @@ exports.login = async function (req, res) {
     if (req.method == 'POST') {
         let token = req.body.token;
         var provider = JSON.stringify(token)
-        //provider = provider.replace(/\"/g, "\\\"")
-        //console.log(provider)
 
-        //var query = `mutation{addUser(name:"${token.name}",email:"${token.email}",provider:"${provider}") {role}}`
         const { googleSheets, auth, spreadsheetId } = req.sysApi
         
         //read

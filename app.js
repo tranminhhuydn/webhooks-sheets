@@ -27,8 +27,8 @@ if(!fs.existsSync("config/setting.json")){
     var data = fs.readFileSync("config/setting.default.json")
     fs.writeFileSync("config/setting.json",data)
 }
-console.log('---------------------------process.env.CREDENTIALS')
-console.log(process.env.CREDENTIALS)
+// console.log('---------------------------process.env.CREDENTIALS')
+// console.log(process.env.CREDENTIALS)
 
 if(!fs.existsSync('./dist'))
     fs.mkdirSync('./dist')

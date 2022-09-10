@@ -38,6 +38,7 @@ async function connectionDB(req, res, next) {
             dbObject: dbObject
         }
         req.sysApi = sysApi
+        req.dbObject = dbObject
         next()
     } catch (e) {
         console.log(e)
