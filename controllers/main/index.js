@@ -10,8 +10,8 @@ exports.index = function(req, res) {
     if(!fs.existsSync('./dist'))
         fs.mkdirSync('./dist')
 
-    if(!fs.existsSync('./dist/credentials.json'))
-        return res.redirect('/main/credentials')
+    // if(!fs.existsSync('./dist/credentials.json'))
+    //     return res.redirect('/main/credentials')
 
     var dir = path.join(__dirname, '../../', 'controllers');
     var verbose = true;

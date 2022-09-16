@@ -134,7 +134,7 @@ app.get('*', function(req, res, next) {
 // }));
 
 
-//LOAD CONTROOLER
+//LOAD CONTROLLER
 require('./middleware/boot-controller')(app, {
     verbose: !module.parent
 });
