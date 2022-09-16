@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/tranminhhuydn/webhooks-sheets#readme",
   "dependencies": {
-    "bcrypt": "^5.0.0",
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.19.2",
     "connect-flash": "^0.1.1",
     "connect-gzip-static": "^2.1.1",

@@ -1,10 +1,11 @@
+const { google } = require("googleapis");
 const {authorize} = require('../config/database');
 
-const range = "account!A:C"
+const range = "project!A:F"
 
-module.exports.User = {
+module.exports.Project = {
   add: async function (resource) {
-    const { auth, authClient, googleSheets } = await authorize()
+    const { auth, googleSheets } = await authorize()
 
     await googleSheets.spreadsheets.values.append({
       auth,
@@ -15,7 +16,7 @@ module.exports.User = {
     });
   },
   get: async function () {
-    const { auth, authClient, googleSheets } = await authorize()
+    const { auth, googleSheets } = await authorize()
     
     const getRows = await googleSheets.spreadsheets.values.get({
       auth,
@@ -32,12 +33,3 @@ module.exports.User = {
   }
 }
 
-const ROLE = {
-  ADMIN: 'admin',
-  MANAGER: 'manager',
-  POSTER: 'poster',
-  BASIC: 'basic',
-  USER: 'user',
-  BLOCK: 'block',
-}
-module.exports.ROLE = ROLE;

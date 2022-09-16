@@ -9,6 +9,7 @@ const
     passport = require('passport'),
     config = require('dotenv').config(),
     //const connectDB = require('./config/database'),
+    // authorize = require('./config/database'),
 
     i18next = require('i18next'),
     Backend = require('i18next-fs-backend'),
@@ -21,7 +22,7 @@ const
     //database connection
     //connectDB();
     //console.log(config);
-
+    // const authClient = authorize()
 // settup setting.json
 if(!fs.existsSync("config/setting.json")){
     var data = fs.readFileSync("config/setting.default.json")
@@ -29,13 +30,6 @@ if(!fs.existsSync("config/setting.json")){
 }
 // console.log('---------------------------process.env.CREDENTIALS')
 // console.log(process.env.CREDENTIALS)
-
-if(!fs.existsSync('./dist'))
-    fs.mkdirSync('./dist')
-
-if(!fs.existsSync('./dist/credentials.json')){
-    fs.writeFileSync('./dist/credentials.json',process.env.CREDENTIALS,"utf8")
-}
 
 const wrap = middleware => (socket, next) => middleware(socket.request, {}, next);
 const initSession = session({
@@ -89,11 +83,9 @@ var {
 
 //INIT SITE
 var {
-    connectionDB,
     iniSite
 } = require('./middleware/init-site');
 
-    app.use(connectionDB)
 
 //HELPER
 app.use(async function(req, res, next) {
@@ -159,6 +151,10 @@ app.get('/:parent/:farther/:child', slug);
 
 
 
+var {
+    maintain
+} = require('./middleware/maintain');
+maintain()
 
 // Start Server
 //var port = 4201

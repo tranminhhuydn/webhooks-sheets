@@ -1,6 +1,10 @@
 {
 	"MAINMENU":[
 		{
+			"text": "Project",
+		    "url": "/project"
+		}, 
+		{
 			"text": "login",
 		    "url": "/user/login"
 		} 
@@ -19,28 +23,28 @@
 		"admin",
 		"manager",
 		"poster",
-		"basic"
+		"user"
 	],
 	"accessRole": {
 		"user": {
 			"admin": [
 				"admin",
 				"poster",
-				"basic",
+				"user",
 				"public"
 			]
 		},
 		"setting": {
 			"setting": [
-				"admin",
+				"admin", 
 				"manager",
 				"poster",
-				"basic",
+				"user",
 				"public"
 			]
 		},
-		"a":{
-			"index":["admin","manager","poster","basic","public"]
+		"project":{
+			"index":["admin","user"]
 		}
 	},
 	"deploy":false

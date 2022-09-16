@@ -1,6 +1,10 @@
 {
 	"MAINMENU":[
 		{
+			"text": "Project",
+		    "url": "/project"
+		}, 
+		{
 			"text": "login",
 		    "url": "/user/login"
 		} 

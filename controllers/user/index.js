@@ -1,6 +1,6 @@
 var fs = require('fs');
 var path = require('path');
-
+const {User} = require('../../models/user');
 
 exports.before = async function(req, res, next) {
     res.locals.title = 'User'
@@ -12,53 +12,33 @@ exports.profile = function(req, res) {
     res.render('profile',{user:token})
 };
 exports.list = async (req, res) => {
-    const {googleSheets,auth,spreadsheetId} = req.sysApi
-    const getRows = await googleSheets.spreadsheets.values.get({
-        auth,
-        spreadsheetId,
-        range: "Sheet1!A:C",
-    });
-    //console.log(getRows.data.values)
-    //return res.send(getRows)
-    res.render('list-google',{data:getRows.data.values})
+    const values = await User.get()
+    res.render('list-google',{data:values})
 }
 exports.login = async function (req, res) {
-    //POST
+    //POST 
     if (req.method == 'POST') {
         let token = req.body.token;
         var provider = JSON.stringify(token)
-
-        const { googleSheets, auth, spreadsheetId } = req.sysApi
-        
         //read
-        const getRows = await googleSheets.spreadsheets.values.get({
-            auth,
-            spreadsheetId,
-            range: "account!A:C",
-        });
+        const values = await User.get()
 
         //find
-        const {values} = getRows.data
+        //const {values} = getRows.data
         const result = values.find((e,i)=>{
             if(e[0]==token.email) return e
         })
         //write
         if(!result){
-
             token.role = values.length==1? 'admin':'user'
-
-            await googleSheets.spreadsheets.values.append({
-                auth,
-                spreadsheetId,
-                range: "account!A:C",
-                valueInputOption: "USER_ENTERED",
-                resource: {
-                    values: [[token.email,token.name,token.role,  provider]],
-                },
-            });
+            await User.add({
+                values: [[token.email,token.name,token.role,  provider]],
+            })
             req.flash('success', req.t('recode had save'))
         }
 
+        if(result)
+            token.role = result[2]
         req.session.user = token
         res.cookie('email', token.email);
         res.cookie('name', token.name);
@@ -67,6 +47,8 @@ exports.login = async function (req, res) {
     }
     //GET
     if (req.method == 'GET') {
+        if(req.cookies['session-token'] != null)
+            req.session.user = req.cookies['session-token']
         if (req.session.user != null || req.cookies['session-token'] != null) {
             req.flash('danger', req.t('You are ready login'))
             return res.redirect('/user')
@@ -78,6 +60,8 @@ exports.login = async function (req, res) {
 
 exports.logout = function(req, res) {
     res.clearCookie('session-token');
+    res.clearCookie('email');
+    res.clearCookie('name');
     req.session.user = null
     return res.redirect('/')
 };

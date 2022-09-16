@@ -1,27 +1,43 @@
-exports.accessRole = function(req, res, next) {
+exports.accessRole = function (req, res, next) {
 
-  var
-      url = /\/(\w+)\/(\w+)/g.exec(req.url),
-      {
-          accessRole
-      } = res.locals.config
+    var sUrl=req.url,
+        url = /\/(\w+)\/(\w+)/g.exec(req.url),
+        
+        {
+            accessRole
+        } = res.locals.config
 
-  var controller = url && url[1] ? url[1] : null,
-      action = url && url[2] ? url[2] : null,
-      access = controller && action  && accessRole[controller] &&  accessRole[controller][action] ? accessRole[controller][action] : null
+    var controller = url && url[1] ? url[1] : null,
+        action = url && url[2] ? url[2] : null
+    if (url==null) {
+        url = /\/(\w+)/g.exec(req.url)
+        controller = url && url[1] ? url[1] : null
 
-  // console.log('--> url', url);
-  // console.log('--> controller', controller);
-  // console.log('--> action', action);
-  // console.log('--> access', access);
-  if (access) {
-      res.locals.accessRole = access ? access : []
-      return authUser(req, res, () => {
-          return authRole(req, res, next)
-          //return next()
-      })
-  }
-  return next();
+        if(accessRole[controller]){
+            sUrl = sUrl.substr(sUrl.length - 1, sUrl.length)
+            req.url = sUrl != '/' ? req.url + '/index' : req.url+ "index"
+            url = /\/(\w+)\/(\w+)/g.exec(req.url)
+        }
+        //console.log('-->2 url', url);
+    }
+    controller = url && url[1] ? url[1] : null,
+    action = url && url[2] ? url[2] : null
+    var
+        access = controller && action && accessRole[controller] && accessRole[controller][action] ? accessRole[controller][action] : null
+
+    // console.log('--> req.url', req.url);
+    // console.log('--> url', url);
+    // console.log('--> controller', controller);
+    // console.log('--> action', action);
+    // console.log('--> access', access);
+    if (access) {
+        res.locals.accessRole = access ? access : []
+        return authUser(req, res, () => {
+            return authRole(req, res, next)
+            //return next()
+        })
+    }
+    return next();
 };
 
 function authRole(req, res, next) {

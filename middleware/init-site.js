@@ -2,49 +2,10 @@ var
     fs = require('fs'),
     path = require('path')
 const { google } = require("googleapis");
-
+const {authorize} = require('../config/database');
 var {
     ROLE
 } = require('../models/user');
-
-async function connectionDB(req, res, next) {
-    try {
-        const auth = new google.auth.GoogleAuth({
-            keyFile: "./dist/credentials.json",
-            scopes: "https://www.googleapis.com/auth/spreadsheets",
-        });
-
-        // Create client instance for auth
-        const client = await auth.getClient();
-
-        // Instance of Google Sheets API
-        const googleSheets = google.sheets({ version: "v4", auth: client });
-
-        const spreadsheetId = process.env.SHEETID
-        //const spreadsheetId = fs.readFileSync("./dist/sheetid.txt", "utf8");
-        
-        // Get metadata about spreadsheet
-        const metaData = await googleSheets.spreadsheets.get({
-            auth,
-            spreadsheetId,
-        });
-        const dbObject = googleSheets.spreadsheets.values
-        const sysApi = {
-            auth: auth,
-            client: client,
-            googleSheets: googleSheets,
-            spreadsheetId: spreadsheetId,
-            metaData: metaData,
-            dbObject: dbObject
-        }
-        req.sysApi = sysApi
-        req.dbObject = dbObject
-        next()
-    } catch (e) {
-        console.log(e)
-    }
-}
-exports.connectionDB = connectionDB 
 exports.iniSite = function(req, res, next) {
   
     res.locals.config = JSON.parse(fs.readFileSync('./config/setting.json', 'utf8'));
@@ -81,7 +42,8 @@ exports.iniSite = function(req, res, next) {
         }
         return str;
     }
-
+    if (req.cookies['session-token'] != null)
+        req.session.user = req.cookies['session-token']
     //:todo immulate login 
     if (req.session.user != null) {
         req.user = req.session.user
