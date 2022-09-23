@@ -2,7 +2,6 @@ exports.accessRole = function (req, res, next) {
 
     var sUrl=req.url,
         url = /\/(\w+)\/(\w+)/g.exec(req.url),
-        
         {
             accessRole
         } = res.locals.config

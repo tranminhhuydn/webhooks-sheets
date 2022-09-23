@@ -34,9 +34,8 @@ exports.join = async function(req, res) {
         const response = await Sheets.get(spreadsheetId,token.email)
         const sheetId = response.sheets[0].properties.sheetId
         const rowCount = response.sheets[0].properties.gridProperties.rowCount
-        
+        //max row in excell 1048576
         if(response){
-            //const {sheetId} = response.sheets[0].properties
             var resource = {
                 "requests": [
                     {
@@ -65,6 +64,9 @@ exports.join = async function(req, res) {
 };
 exports.index = async function(req, res) {
     const values = await Project.get() 
+    //res.locals.layout = 'layout.ejs'
+    //res.locals.isHome = true;
+    res.locals.isSliderCenter = true
     res.render('index',{data:values})
 };
 exports.add = async function(req, res) {
@@ -173,12 +175,40 @@ exports.bind = async function (req, res, next) {
             return res.send(`{"message":"Clear"}`)
         }
         if(Type=='Insert'){
-        }
-        if(Type=='Delete'){
             var { startIndex,endIndex } = req.query
             const requestSheet = {
                 spreadsheetId: spreadsheetId,
-                ranges:  [`${SheetName}!${Column}${RowNumber}`], 
+                ranges:  [`${SheetName}`], 
+                includeGridData: false,
+                auth: auth,
+              };
+
+            const responseSheet = (await spreadsheets.get(requestSheet)).data;
+            const sheetId = responseSheet.sheets[0].properties.sheetId
+            var resource = {
+                "requests": [
+                    {
+                        "insertDimension": 
+                        {
+                            "range": {
+                                "sheetId": sheetId,
+                                "dimension": "ROWS",
+                                "startIndex": parseInt(startIndex)-1,
+                                "endIndex": parseInt(endIndex)
+                            }
+                            ,"inheritFromBefore": false
+                        }
+                    }
+                ]
+            }
+            await Sheets.batchUpdate(spreadsheetId,resource)
+            return res.send(`{"message":"Insert"}`)
+        }
+        if(Type=='DeleteRow'){
+            var { startIndex,endIndex } = req.query
+            const requestSheet = {
+                spreadsheetId: spreadsheetId,
+                ranges:  [`${SheetName}`], 
                 includeGridData: false,
                 auth: auth,
               };
@@ -204,7 +234,41 @@ exports.bind = async function (req, res, next) {
                 auth,
                 spreadsheetId,
                 resource: resource
-            })).data;   
+            })).data;  
+            return res.send(`{"message":"DeleteRow"}`)
+        }
+        if(Type=='DeleteColumn'){
+            var { startIndex,endIndex } = req.query
+            const requestSheet = {
+                spreadsheetId: spreadsheetId,
+                ranges:  [`${SheetName}`], 
+                includeGridData: false,
+                auth: auth,
+              };
+
+            const responseSheet = (await spreadsheets.get(requestSheet)).data;
+            const sheetId = responseSheet.sheets[0].properties.sheetId
+            const resource = {
+                "requests": [
+                  {
+                    "deleteDimension": {
+                      "range": {
+                        "sheetId": sheetId,
+                        "dimension": "COLUMNS",
+                        "startIndex": parseInt(startIndex),
+                        "endIndex": parseInt(endIndex)
+                      }
+                    }
+                  }
+                ]
+              }
+              
+            response = (await spreadsheets.batchUpdate({
+                auth,
+                spreadsheetId,
+                resource: resource
+            })).data;  
+            return res.send(`{"message":"DeleteColumn"}`)
         }
         console.log(JSON.stringify(response, null, 2)); 
     } catch (e) {

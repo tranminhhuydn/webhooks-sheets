@@ -55,7 +55,7 @@ exports.userSheet = async function(req, res) {
 };
 exports.members = async function(req, res) {
     var id= req.params[0]
-
+    res.locals.isSliderCenter=true
     let token = req.cookies['session-token'];
     
     //read project 

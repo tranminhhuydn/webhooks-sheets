@@ -57,6 +57,11 @@
       <% if(locals.isHome==!undefined){ %>
         <%- include('partials-doc/slider-center') -%>
       <% } %>
+      <% if(locals.isSliderCenter==!undefined){ %>
+        <main class="container p-3">
+          <%- include(view) -%>
+        </main>
+      <% }else{ %>
       <div class="row g-5">
         <div class="col-md-8">
           <%- include(view) -%>
@@ -71,6 +76,7 @@
           </div>
         <% } %>
       </div>
+      <%} %>
     </main>
   <% } %>
 

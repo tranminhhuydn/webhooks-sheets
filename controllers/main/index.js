@@ -5,30 +5,27 @@ var {
 } = require('../../models/user');
 
 
-exports.index = function(req, res) {
-    
-    if(!fs.existsSync('./dist'))
+exports.index = function (req, res) {
+
+    if (!fs.existsSync('./dist'))
         fs.mkdirSync('./dist')
 
     // if(!fs.existsSync('./dist/credentials.json'))
     //     return res.redirect('/main/credentials')
 
     var dir = path.join(__dirname, '../../', 'controllers');
-    var verbose = true;
     var lists = []
-    fs.readdirSync(dir).forEach(function(name) {
-            var file = path.join(dir, name)
-            if (!fs.statSync(file).isDirectory()) return;
+    fs.readdirSync(dir).forEach(function (name) {
+        var file = path.join(dir, name)
+        if (!fs.statSync(file).isDirectory()) return;
 
-            if (name == 'main') return;
+        if (name == 'main') return;
 
-            lists.push({
-                    name: name
-                })
-                //verbose && console.log('\n   %s:', name);
-                //var obj = require(file)(socket);
+        lists.push({
+            name: name
         })
-        //console.log(req.url);
+
+    })
     var view = 'index'
     if (req.url == '/') {
         //req.app.set('views',__dirname+'/views')

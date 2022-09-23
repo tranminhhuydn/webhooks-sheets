@@ -74,11 +74,23 @@ module.exports.Sheets = {
 }
 
 /*
-The Sheets API allows you to insert, remove, and manipulate rows and columns in sheets. [API Trang tính cho phép bạn chèn, xóa và thao tác các hàng và cột trong trang tính.] The examples on this page illustrate how some common row and column operations can be achieved with the API. [Các ví dụ trên trang này minh họa cách một số thao tác hàng và cột phổ biến có thể đạt được với API.]
-In these examples, the placeholders spreadsheetId and sheetId are used to indicate where you would provide those IDs. [Trong các ví dụ này, các bảng tính chỗ dành sẵn và sheetId được sử dụng để chỉ ra nơi bạn sẽ cung cấp các ID đó.] The spreadsheet ID can be discovered from the spreadsheet URL; the sheet ID can be obtained from the spreadsheet.get method. [ID bảng tính có thể được tìm thấy từ URL của bảng tính; ID trang tính có thể được lấy từ phương thức Spreadheet.get.]
-Adjust column width or row height [Điều chỉnh chiều rộng cột hoặc chiều cao hàng] 
-The following spreadsheets.batchUpdate request updates the width of column A to 160 pixels. [Yêu cầu sau Spreadheets.batchUpdate cập nhật chiều rộng của cột A lên 160 pixel.] A second request updates the row height of the first three rows to be 40 pixels. [Yêu cầu thứ hai cập nhật chiều cao hàng của ba hàng đầu tiên là 40 pixel.]
-The request protocol is shown below. [Giao thức yêu cầu được hiển thị bên dưới.] The Updating Spreadsheets guide shows how to implement a batch update in different languages using the Google API client libraries. [Hướng dẫn Cập nhật Bảng tính cho biết cách triển khai cập nhật hàng loạt bằng các ngôn ngữ khác nhau bằng cách sử dụng các thư viện ứng dụng API của Google.]
+The Sheets API allows you to insert, remove, and manipulate rows and columns in sheets. 
+[API Trang tính cho phép bạn chèn, xóa và thao tác các hàng và cột trong trang tính.] 
+The examples on this page illustrate how some common row and column operations can be achieved with the API. 
+[Các ví dụ trên trang này minh họa cách một số thao tác hàng và cột phổ biến có thể đạt được với API.]
+In these examples, the placeholders spreadsheetId and sheetId are used to indicate where you would provide those IDs. 
+[Trong các ví dụ này, các bảng tính chỗ dành sẵn và sheetId được sử dụng để chỉ ra nơi bạn sẽ cung cấp các ID đó.] 
+The spreadsheet ID can be discovered from the spreadsheet URL; the sheet ID can be obtained from the spreadsheet.get method. 
+[ID bảng tính có thể được tìm thấy từ URL của bảng tính; ID trang tính có thể được lấy từ phương thức Spreadheet.get.]
+Adjust column width or row height 
+[Điều chỉnh chiều rộng cột hoặc chiều cao hàng] 
+The following spreadsheets.batchUpdate request updates the width of column A to 160 pixels. 
+[Yêu cầu sau Spreadheets.batchUpdate cập nhật chiều rộng của cột A lên 160 pixel.] 
+A second request updates the row height of the first three rows to be 40 pixels. 
+[Yêu cầu thứ hai cập nhật chiều cao hàng của ba hàng đầu tiên là 40 pixel.]
+The request protocol is shown below. [Giao thức yêu cầu được hiển thị bên dưới.] 
+The Updating Spreadsheets guide shows how to implement a batch update in different languages using the Google API client libraries. 
+[Hướng dẫn Cập nhật Bảng tính cho biết cách triển khai cập nhật hàng loạt bằng các ngôn ngữ khác nhau bằng cách sử dụng các thư viện ứng dụng API của Google.]
 
 POST https://sheets.googleapis.com/v4/spreadsheets/spreadsheetId:batchUpdate
 
@@ -179,8 +191,14 @@ POST https://sheets.googleapis.com/v4/spreadsheets/spreadsheetId:batchUpdate
   ]
 }
 Delete rows or columns [Xóa hàng hoặc cột] 
-The following spreadsheets.batchUpdate request deletes the first three rows in the sheet. [Yêu cầu sau đây Spreadheets.batchUpdate xóa ba hàng đầu tiên trong trang tính.] A second request deletes columns B:D. [Yêu cầu thứ hai xóa các cột B: D.]
-The request protocol is shown below. [Giao thức yêu cầu được hiển thị bên dưới.] The Updating Spreadsheets guide shows how to implement a batch update in different languages using the Google API client libraries. [Hướng dẫn Cập nhật Bảng tính cho biết cách triển khai cập nhật hàng loạt bằng các ngôn ngữ khác nhau bằng cách sử dụng các thư viện ứng dụng API của Google.]
+The following spreadsheets.batchUpdate request deletes the first three rows in the sheet. 
+[Yêu cầu sau đây Spreadheets.batchUpdate xóa ba hàng đầu tiên trong trang tính.] 
+A second request deletes columns B:D. 
+[Yêu cầu thứ hai xóa các cột B: D.]
+The request protocol is shown below. 
+[Giao thức yêu cầu được hiển thị bên dưới.] 
+The Updating Spreadsheets guide shows how to implement a batch update in different languages using the Google API client libraries. 
+[Hướng dẫn Cập nhật Bảng tính cho biết cách triển khai cập nhật hàng loạt bằng các ngôn ngữ khác nhau bằng cách sử dụng các thư viện ứng dụng API của Google.]
 
 POST https://sheets.googleapis.com/v4/spreadsheets/spreadsheetId:batchUpdate
 
